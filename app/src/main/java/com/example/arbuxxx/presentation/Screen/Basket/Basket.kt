@@ -1,8 +1,8 @@
+@file:OptIn(ExperimentalGlideComposeApi::class)
+
 package com.example.arbuxxx.presentation.Screen.Basket
 
-import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,37 +17,24 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.example.arbuxxx.data.model.BasketProductViewModel
-import com.example.arbuxxx.domain.model.Product
-import com.example.arbuxxx.domain.model.ProductBasket
+import com.example.arbuxxx.data.model.ProductViewModel
+import com.example.arbuxxx.data.dto.ProductBasket
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun Basket(basketProductViewModel: BasketProductViewModel) {
-    val productDataState by basketProductViewModel.baskets.collectAsState()
-
-    // Создаем переменную для хранения общей суммы продуктов
-    var totalAmount by remember { mutableStateOf(0F) }
-
-    // Вычисляем общую сумму продуктов при каждом изменении состояния корзины
-    LaunchedEffect(productDataState) {
-        totalAmount = productDataState.sumBy { it.totalMoney.toInt() }.toFloat()
-    }
+fun Basket(productViewModel: ProductViewModel) {
+    val productDataState by productViewModel.baskets.collectAsState()
 
     Column(
         modifier = Modifier
@@ -58,7 +45,7 @@ fun Basket(basketProductViewModel: BasketProductViewModel) {
         if (productDataState.isNotEmpty()) {
             // Отображение списка продуктов
             productDataState.forEach { basket ->
-                ProductItem(basket,basketProductViewModel)
+                ProductItem(basket)
             }
         } else {
             // Отображение сообщения, если список пуст
@@ -69,26 +56,25 @@ fun Basket(basketProductViewModel: BasketProductViewModel) {
     }
 
     Button(
-        onClick = { /*TODO*/ },
+        onClick = { },
         modifier = Modifier
             .fillMaxSize()
             .wrapContentSize(
                 Alignment.BottomCenter
             )
     ) {
-        Text(text = "${totalAmount} KZT")
+        Text(text = "${productViewModel.totalAmount.value} KZT")
     }
 }
 
-@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun ProductItem(productBasket: ProductBasket,basketProductViewModel: BasketProductViewModel) {
+fun ProductItem(productBasket: ProductBasket) {
     ConstraintLayout(
         modifier = Modifier
             .height(100.dp)
             .fillMaxWidth()
     ) {
-        val(imageRef,nameRef,moneyRef,PlusRef,XRef,totalMoneyRef) = createRefs()
+        val(imageRef,nameRef,moneyRef,totalMoneyRef) = createRefs()
 
         GlideImage(
             model = productBasket.img,

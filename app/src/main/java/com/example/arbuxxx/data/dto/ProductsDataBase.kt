@@ -4,17 +4,16 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.arbuxxx.domain.model.Product
-import com.example.arbuxxx.data.repository.ProductDao
+import com.example.arbuxxx.data.repository.Repository
 
 @Database(
-    entities = [Product::class],
+    entities = [Product::class, ProductBasket::class],
     version = 1
 )
 
 abstract class ProductDataBase: RoomDatabase() {
 
-    abstract fun productDao(): ProductDao
+    abstract fun repository(): Repository
 
 
     companion object {

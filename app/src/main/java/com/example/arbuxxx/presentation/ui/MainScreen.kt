@@ -10,7 +10,6 @@ import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.example.arbuxxx.data.model.BasketProductViewModel
 import com.example.arbuxxx.data.model.ProductViewModel
 import com.example.arbuxxx.presentation.model.BottomNavigation.BottomNavigation
 import com.example.arbuxxx.presentation.model.BottomNavigation.NavGraph
@@ -24,9 +23,9 @@ fun hideBottomNavigationBar(visible: Boolean) {
 }
 
 @Composable
-fun MainScreen(productViewModel: ProductViewModel, basketProductViewModel: BasketProductViewModel) {
+fun MainScreen(productViewModel: ProductViewModel) {
     val navController = rememberNavController()
-    val notificationCount = basketProductViewModel.baskets.collectAsState().value.size
+    val notificationCount = productViewModel.baskets.collectAsState().value.size
 
     Column(Modifier.fillMaxSize()) {
         key(bottomNavigationVisible.value){
@@ -35,7 +34,7 @@ fun MainScreen(productViewModel: ProductViewModel, basketProductViewModel: Baske
                     .weight(1f)
                     .fillMaxSize()
             ) {
-                NavGraph(navController, productViewModel, basketProductViewModel)
+                NavGraph(navController, productViewModel)
             }
             if (bottomNavigationVisible.value) {
                 BottomNavigation(

@@ -1,4 +1,4 @@
-package com.example.arbuxxx.domain.model
+package com.example.arbuxxx.data.dto
 
 import androidx.compose.runtime.Immutable
 import androidx.room.Entity

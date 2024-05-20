@@ -14,11 +14,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.arbuxxx.presentation.ui.theme.FF222222
-import com.example.arbuxxx.presentation.ui.theme.FF4CAF50
+import com.example.arbuxxx.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -60,8 +60,8 @@ fun BottomNavigation(
                     }
                 },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = FF4CAF50,
-                    unselectedIconColor = FF222222,
+                    selectedIconColor = colorResource(id = R.color.FF4CAF50),
+                    unselectedIconColor = colorResource(id = R.color.FF222222),
                     indicatorColor = Color.White
                 )
             )
